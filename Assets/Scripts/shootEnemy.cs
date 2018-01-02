@@ -13,6 +13,12 @@ public class shootEnemy : MonoBehaviour {
 	public int forceAdd = 300;
 	AudioSource shootSound;
 	AudioSource reloadSound;
+	public Text ammo1Text;
+	public Text ammo2Text;
+	public int ammo1;
+	public int ammo2;
+	private bool ammoIsEmpty;
+	public ParticleSystem muzzleFlash;
 
 	// Use this for initialization
 	void Start () {
@@ -21,35 +27,64 @@ public class shootEnemy : MonoBehaviour {
 		AudioSource[] audios = GetComponents<AudioSource> ();
 		shootSound = audios [0];
 		reloadSound = audios [1];
+
+		ammo1 = 20;
+		ammo2 = 100;
 	}
 	
 	void onShoot ()
 	{
 
-		shootSound.Play ();
-		
-		RaycastHit hit;
-		if (Physics.Raycast (fpsCam.transform.position, fpsCam.transform.forward, out hit))
+		if (!ammoIsEmpty)
 		{
-			Enemy target = hit.transform.GetComponent<Enemy> ();
-
-			if (target != null)
+			if (ammo1 == 1)
 			{
-				target.TakeDamage (damage);
-
-				GameObject bloodGO = Instantiate (bloodEffect, hit.point, Quaternion.LookRotation (hit.normal));
-				Destroy (bloodGO, 0.2f);
-			}
-			else
-			{
-				GameObject shootingGO = Instantiate (shootingEffect, hit.point, Quaternion.LookRotation (hit.normal));
-				Destroy (shootingGO, 0.2f);
+				ammo1 = 21;
 			}
 
-			if (hit.rigidbody != null)
+			ammo1 -= 1;
+			string ammo1String = (ammo1).ToString();
+			ammo1Text.text = ammo1String;
+
+			ammo2 -= 1;
+			string ammo2String = (ammo2).ToString();
+			ammo2Text.text = "/" + ammo2String;
+
+			if (ammo2 == 0)
 			{
-				hit.rigidbody.AddForce (-hit.normal * forceAdd);
+				ammoIsEmpty = true;
+				ammo1 = 0;
+				string ammo1String2 = (ammo1).ToString();
+				ammo1Text.text = ammo1String2;
 			}
+
+			shootSound.Play ();
+			
+			RaycastHit hit;
+			if (Physics.Raycast (fpsCam.transform.position, fpsCam.transform.forward, out hit))
+			{
+				Enemy target = hit.transform.GetComponent<Enemy> ();
+
+				if (target != null)
+				{
+					target.TakeDamage (damage);
+
+					GameObject bloodGO = Instantiate (bloodEffect, hit.point, Quaternion.LookRotation (hit.normal));
+					Destroy (bloodGO, 0.2f);
+				}
+				else
+				{
+					GameObject shootingGO = Instantiate (shootingEffect, hit.point, Quaternion.LookRotation (hit.normal));
+					Destroy (shootingGO, 0.2f);
+				}
+
+				if (hit.rigidbody != null)
+				{
+					hit.rigidbody.AddForce (-hit.normal * forceAdd);
+				}
+			}
+
+			muzzleFlash.Play ();
 		}
 	}
 }
