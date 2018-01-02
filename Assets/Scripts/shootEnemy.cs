@@ -19,6 +19,8 @@ public class shootEnemy : MonoBehaviour {
 	public int ammo2;
 	private bool ammoIsEmpty;
 	public ParticleSystem muzzleFlash;
+	public GameObject pistolGO;
+	private bool reloadCheck;
 
 	// Use this for initialization
 	void Start () {
@@ -30,16 +32,28 @@ public class shootEnemy : MonoBehaviour {
 
 		ammo1 = 20;
 		ammo2 = 100;
+
+		reloadCheck = true;
+	}
+
+	IEnumerator waitForReload ()
+	{
+		yield return new WaitForSeconds (3f);
+		reloadCheck = true;
 	}
 	
 	void onShoot ()
 	{
 
-		if (!ammoIsEmpty)
+		if (!ammoIsEmpty && reloadCheck)
 		{
 			if (ammo1 == 1)
 			{
 				ammo1 = 21;
+				pistolGO.GetComponent<Animator> ().SetTrigger ("reload");
+				reloadCheck = false;
+				StartCoroutine (waitForReload ());
+				reloadSound.Play ();
 			}
 
 			ammo1 -= 1;
@@ -85,6 +99,8 @@ public class shootEnemy : MonoBehaviour {
 			}
 
 			muzzleFlash.Play ();
+
+			pistolGO.GetComponent<Animator> ().Play("Fire");
 		}
 	}
 }
