@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/UnityARKitPlugin/Examples/UnityARKitScene/UnityARKitScene.unity
+    path: Assets/Scenes/main.unity
     guid: c159f2591a9b5c843b0a0442451f78f8
   - enabled: 0
     path: Assets/UnityARKitPlugin/Examples/UnityParticlePainter/UnityParticlePainter.unity
@@ -27,5 +27,5 @@ EditorBuildSettings:
     path: Assets/UnityARKitPlugin/Examples/FocusSquare/FocusSquareScene.unity
     guid: 3c9ef824a7b95400bade362484e9b6af
   - enabled: 1
-    path: Assets/GameOver.unity
+    path: Assets/Scenes/GameOver.unity
     guid: 4a7084f7f1b574ca1875bd6791f41662
