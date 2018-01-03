@@ -21,6 +21,7 @@ public class shootEnemy : MonoBehaviour {
 	public ParticleSystem muzzleFlash;
 	public GameObject pistolGO;
 	private bool reloadCheck;
+	public GameObject shell;
 
 	// Use this for initialization
 	void Start () {
@@ -47,6 +48,8 @@ public class shootEnemy : MonoBehaviour {
 
 		if (!ammoIsEmpty && reloadCheck)
 		{
+
+			//Ammo
 			if (ammo1 == 1)
 			{
 				ammo1 = 21;
@@ -71,9 +74,8 @@ public class shootEnemy : MonoBehaviour {
 				string ammo1String2 = (ammo1).ToString();
 				ammo1Text.text = ammo1String2;
 			}
-
-			shootSound.Play ();
 			
+			//Raycasting
 			RaycastHit hit;
 			if (Physics.Raycast (fpsCam.transform.position, fpsCam.transform.forward, out hit))
 			{
@@ -98,9 +100,18 @@ public class shootEnemy : MonoBehaviour {
 				}
 			}
 
+			//Sound and animation
+			shootSound.Play ();
+
 			muzzleFlash.Play ();
 
 			pistolGO.GetComponent<Animator> ().Play("Fire");
+
+			//Loading shell
+			Vector3 position = GameObject.FindGameObjectWithTag ("positionPistol").transform.position;
+			Quaternion rotation = Quaternion.Euler (0, 0, 0);
+
+			Instantiate (shell, position, rotation);
 		}
 	}
 }
