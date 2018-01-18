@@ -14,6 +14,6 @@ public class loadNewGame : MonoBehaviour {
 	}
 	
 	void loadGame () {
-		SceneManager.LoadScene ("UnityARKitScene");
+		SceneManager.LoadScene ("main");
 	}
 }

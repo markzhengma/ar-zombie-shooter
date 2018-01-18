@@ -17,10 +17,12 @@ public class shootEnemy : MonoBehaviour {
 	public Text ammo2Text;
 	public int ammo1;
 	public int ammo2;
-	private bool ammoIsEmpty;
+	public bool ammoIsEmpty;
+	public GameObject weapon1;
+	public GameObject[] pistolPickUp;
 	public ParticleSystem muzzleFlash;
 	public GameObject pistolGO;
-	private bool reloadCheck;
+	public bool reloadCheck;
 	public GameObject shell;
 
 	// Use this for initialization
@@ -31,10 +33,12 @@ public class shootEnemy : MonoBehaviour {
 		shootSound = audios [0];
 		reloadSound = audios [1];
 
-		ammo1 = 20;
-		ammo2 = 100;
+		// ammo1 = 20;
+		// ammo2 = 100;
 
 		reloadCheck = true;
+
+		// pistolPickUp = GameObject.FindGameObjectsWithTag("pistolPickUp");
 	}
 
 	IEnumerator waitForReload ()
@@ -45,6 +49,7 @@ public class shootEnemy : MonoBehaviour {
 	
 	void onShoot ()
 	{
+		
 
 		if (!ammoIsEmpty && reloadCheck)
 		{
@@ -73,6 +78,12 @@ public class shootEnemy : MonoBehaviour {
 				ammo1 = 0;
 				string ammo1String2 = (ammo1).ToString();
 				ammo1Text.text = ammo1String2;
+				weapon1.SetActive(false);
+				pistolPickUp[Random.Range(0,3)].SetActive(true);
+				// for (var i = 0; i < pistolPickUp.Length; i ++)
+				// {
+				// 	pistolPickUp[i].SetActive(true);
+				// }
 			}
 			
 			//Raycasting
